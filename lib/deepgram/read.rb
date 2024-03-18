@@ -3,23 +3,46 @@
 module Deepgram
   module Read
     class Client < Base
-      def initialize(language: 'en', **kwargs)
+      def initialize(language = 'en')
         super
 
-        @options = { summarize: true }.merge(kwargs)
-        @language = language
         @connection.path_prefix = 'v1/read'
+        @connection.params[:language] = language
+        @connection.headers['Content-Type'] = 'application/json'
       end
 
-      def analyze(text:)
-        response = @connection.post do |request|
-          request.headers['Content-Type'] = 'application/json'
-          request.params[:language] = @language
-          request.params[:summarize] = @options[:summarize]
-          request.body = JSON.generate(text: text)
+      def summarize(text:, **kwargs)
+        post(text, **kwargs) do |params|
+          params[:summarize] = true
         end
+      end
 
-        response.body
+      def topics(text:, **kwargs)
+        post(text, **kwargs) do |params|
+          params[:topics] = true
+        end
+      end
+
+      def sentiment(text:, **kwargs)
+        post(text, **kwargs) do |params|
+          params[:sentiment] = true
+        end
+      end
+
+      def intents(text:, **kwargs)
+        post(text, **kwargs) do |params|
+          params[:intents] = true
+        end
+      end
+
+      private
+
+      def post(text, **kwargs)
+        @connection.post do |request|
+          request.body = JSON.generate(text: text)
+          request.params.merge!(kwargs)
+          yield request.params if block_given?
+        end
       end
     end
   end
