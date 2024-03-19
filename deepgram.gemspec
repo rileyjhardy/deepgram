@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'faraday', '~> 2.9'
+  spec.add_development_dependency 'dotenv', '~> 3.1'
 end
