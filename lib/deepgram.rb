@@ -9,5 +9,4 @@ require_relative 'deepgram/speak'
 require_relative 'deepgram/read'
 
 module Deepgram
-  class Error < StandardError; end
 end

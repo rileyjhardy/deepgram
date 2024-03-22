@@ -19,11 +19,13 @@ module Deepgram
       private
 
       def post(text, **kwargs)
-        @connection.post do |request|
+        res = @connection.post do |request|
           request.body = JSON.generate(text: text)
           request.params.merge!(kwargs)
           yield request.params if block_given?
         end
+
+        handle_response(res)
       end
     end
 

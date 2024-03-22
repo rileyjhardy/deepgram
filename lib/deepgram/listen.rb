@@ -19,6 +19,8 @@ module Deepgram
           request.body = File.binread(path)
         end
 
+        res = handle_response(res)
+
         Response.new(status: res.status, body: res.body, headers: res.headers)
       end
 
@@ -28,6 +30,8 @@ module Deepgram
           request.params.merge!(kwargs)
           request.body = JSON.generate(url: url)
         end
+
+        res = handle_response(res)
 
         Response.new(status: res.status, body: res.body, headers: res.headers)
       end
