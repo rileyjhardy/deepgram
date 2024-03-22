@@ -8,7 +8,7 @@ module Deepgram
 
     def initialize(options = {})
       @connection = Faraday.new(url: ENV.fetch('DEEPGRAM_URL', 'https://api.deepgram.com'))
-      @connection.headers['Authorization'] = "Token #{ENV.fetch('DEEPGRAM_API_KEY')}"
+      @connection.headers['Authorization'] = "Token #{ENV.fetch('DEEPGRAM_API_KEY', 'api-key')}"
       @options = options
     end
   end
