@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Deepgram
   class Exception < StandardError
     attr_reader :error_data

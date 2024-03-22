@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'deepgram/fixtures'
 module Deepgram
   module Read
@@ -41,7 +42,7 @@ module Deepgram
       end
 
       def metadata
-        raw.dig('metadata')
+        raw['metadata']
       end
 
       def summary

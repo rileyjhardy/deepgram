@@ -43,7 +43,7 @@ module Deepgram
       end
 
       def validate_url(url)
-        raise ArgumentError, "Invalid URL: #{url}" unless url.match?(%r{\A#{URI::DEFAULT_PARSER.make_regexp}\z})
+        raise ArgumentError, "Invalid URL: #{url}" unless url.match?(/\A#{URI::DEFAULT_PARSER.make_regexp}\z/)
       end
     end
 

@@ -47,7 +47,7 @@ module Deepgram
       end
 
       def request_id
-        raw.dig('request_id')
+        raw['request_id']
       end
     end
 

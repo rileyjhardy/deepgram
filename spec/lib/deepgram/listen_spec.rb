@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'rspec'
 require 'deepgram/fixtures'
@@ -5,12 +7,10 @@ require 'deepgram/fixtures'
 RSpec.describe Deepgram::Listen::Client do
   describe '#transcribe_file' do
     let(:client) { described_class.new }
-    let(:fixture) { Deepgram::Fixtures.load_json('harvard.json')}
+    let(:fixture) { Deepgram::Fixtures.load_json('harvard.json') }
 
     it 'raises an error if the file does not exist' do
-      expect {
-        client.transcribe_file(path: 'nonexistent.wav')
-      }.to raise_error(ArgumentError, /Invalid file path/)
+      expect { client.transcribe_file(path: 'nonexistent.wav') }.to raise_error(ArgumentError, /Invalid file path/)
     end
 
     it 'sends a POST request with the file as the body' do
@@ -18,8 +18,9 @@ RSpec.describe Deepgram::Listen::Client do
         .with(
           body: File.binread('spec/fixtures/harvard.wav'),
           headers: {
-            'Content-Type' => 'audio/wav',
-          })
+            'Content-Type' => 'audio/wav'
+          }
+        )
         .to_return(status: 200, body: fixture.to_json, headers: {})
 
       res = client.transcribe_file(path: 'spec/fixtures/harvard.wav')
@@ -32,12 +33,10 @@ RSpec.describe Deepgram::Listen::Client do
 
   describe '#transcribe_url' do
     let(:client) { described_class.new }
-    let(:file) { Deepgram::Fixtures.load_file('harvard.wav')}
+    let(:file) { Deepgram::Fixtures.load_file('harvard.wav') }
 
     it 'raises an error if the URL is invalid' do
-      expect {
-        client.transcribe_url(url: 'invalid')
-      }.to raise_error(ArgumentError, /Invalid URL/)
+      expect { client.transcribe_url(url: 'invalid') }.to raise_error(ArgumentError, /Invalid URL/)
     end
 
     it 'sends a POST request with the URL as the body' do
