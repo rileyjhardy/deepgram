@@ -2,6 +2,8 @@
 
 A ruby client for interacting with the Deepgram API.
 
+This is a test
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
