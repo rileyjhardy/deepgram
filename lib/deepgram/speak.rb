@@ -11,18 +11,50 @@ module Deepgram
       end
 
       def speak(text:, **kwargs)
-        @connection.post do |request|
+        res = @connection.post do |request|
           request.params.merge!(kwargs)
           request.body = JSON.generate(text: text)
         end
+
+        FileResponse.new(status: res.status, body: res.body, headers: res.headers)
       end
 
       def speak_async(text:, callback_url:, **kwargs)
-        @connection.post do |request|
+        res = @connection.post do |request|
           request.params.merge!(kwargs)
-          request.params[:callback] = callback_url
+          request.params[:callback_url] = callback_url
           request.body = JSON.generate(text: text)
         end
+
+        Response.new(status: res.status, body: res.body, headers: res.headers)
+      end
+    end
+
+    class Response
+      def initialize(status:, body:, headers:)
+        @status = status
+        @body = body
+        @headers = headers
+      end
+
+      def raw
+        JSON.parse(@body)
+      end
+
+      def request_id
+        raw.dig('request_id')
+      end
+    end
+
+    class FileResponse
+      def initialize(status:, body:, headers:)
+        @status = status
+        @body = body
+        @headers = headers
+      end
+
+      def file
+        @body
       end
     end
   end
