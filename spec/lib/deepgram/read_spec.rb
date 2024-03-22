@@ -20,7 +20,7 @@ RSpec.describe Deepgram::Read::Client do
         })
         .to_return(status: 200, body: fixture, headers: {})
 
-      res = client.summarize(text: text_input)
+      res = client.analyze(text: text_input, summarize: true)
 
       expect(res).to be_a(Deepgram::Read::Response)
       expect(res.metadata).to eq({
@@ -56,7 +56,7 @@ RSpec.describe Deepgram::Read::Client do
          to_return(status: 200, body: fixture, headers: {})
 
       client = described_class.new
-      res = client.topics(text: text_input)
+      res = client.analyze(text: text_input, topics: true)
 
       expect(res).to be_a(Deepgram::Read::Response)
       expect(res.topics.count).to eq(4)
@@ -93,7 +93,7 @@ RSpec.describe Deepgram::Read::Client do
          to_return(status: 200, body: fixture, headers: {})
 
       client = described_class.new
-      res = client.sentiment(text: text_input)
+      res = client.analyze(text: text_input, sentiment: true)
 
       expect(res).to be_a(Deepgram::Read::Response)
       expect(res.sentiments.count).to eq(7)
@@ -127,7 +127,7 @@ RSpec.describe Deepgram::Read::Client do
          to_return(status: 200, body: fixture, headers: {})
 
       client = described_class.new
-      res = client.intents(text: text_input)
+      res = client.analyze(text: text_input, intents: true)
 
       expect(res).to be_a(Deepgram::Read::Response)
       expect(res.intents.count).to eq(5)

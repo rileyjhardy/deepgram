@@ -11,27 +11,8 @@ module Deepgram
         @connection.headers['Content-Type'] = 'application/json'
       end
 
-      def summarize(text:, **kwargs)
-        res = post(text,summarize: true, **kwargs)
-
-        Response.new(status: res.status, body: res.body, headers: res.headers)
-      end
-
-      def topics(text:, **kwargs)
-        res = post(text, topics: true, **kwargs)
-
-        Response.new(status: res.status, body: res.body, headers: res.headers)
-      end
-
-      def sentiment(text:, **kwargs)
-        res = post(text, sentiment: true, **kwargs)
-
-        Response.new(status: res.status, body: res.body, headers: res.headers)
-      end
-
-      def intents(text:, **kwargs)
-        res = post(text, intents: true, **kwargs)
-
+      def analyze(text:, **kwargs)
+        res = post(text, **kwargs)
         Response.new(status: res.status, body: res.body, headers: res.headers)
       end
 
