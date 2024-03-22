@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "request_id": "1fb51ca2-8a05-4edb-969e-65e5c1e5c62b",
+    "created": "2024-03-20T18:31:25.954Z",
+    "language": "en",
+    "intents_info": {
+      "model_uuid": "ba5b22e4-b39a-4550-a4bc-d8655f5092bc",
+      "input_tokens": 628,
+      "output_tokens": 99
+    }
+  },
+  "results": {
+    "intents": {
+      "segments": [
+        {
+          "text": "Join us on a journey as we explore the fascinating world of pencils.",
+          "start_word": 36,
+          "end_word": 48,
+          "intents": [
+            {
+              "intent": "Propose journey",
+              "confidence_score": 0.00000372282
+            }
+          ]
+        },
+        {
+          "text": "The Origins of the Pencil The pencil's origins can be traced back to ancient times when the Romans and Egyptians used a form of lead ore known as plumbago to mark and write.",
+          "start_word": 49,
+          "end_word": 81,
+          "intents": [
+            {
+              "intent": "Explore pencil origins",
+              "confidence_score": 0.062201723
+            },
+            {
+              "intent": "Explain pencil's origins",
+              "confidence_score": 0.11344544
+            }
+          ]
+        },
+        {
+          "text": "The Origins of the Pencil The pencil's origins can be traced back to ancient times when the Romans and Egyptians used a form of lead ore known as plumbago to mark and write. However, it wasn't until the late 16th century that the modern pencil began to take shape.",
+          "start_word": 49,
+          "end_word": 97,
+          "intents": [
+            {
+              "intent": "Learn about pencil's history and potential",
+              "confidence_score": 0.0000016902171
+            }
+          ]
+        },
+        {
+          "text": "In 1564, a massive deposit of graphite was discovered near the village of Borrowdale in England, and the locals quickly realized its potential for marking and writing.",
+          "start_word": 98,
+          "end_word": 124,
+          "intents": [
+            {
+              "intent": "Explore pencil's potential",
+              "confidence_score": 0.08068975
+            }
+          ]
+        },
+        {
+          "text": "Grading and Hardness Pencils come in various grades, ranging from the softest (9B) to the hardest (9H). The grade is determined by the ratio of graphite to clay in the pencil's core. Softer pencils, with a higher graphite content, produce darker and smoother lines, while harder pencils, with more clay, leave lighter and sharper marks.",
+          "start_word": 233,
+          "end_word": 287,
+          "intents": [
+            {
+              "intent": "Inform about pencil grades",
+              "confidence_score": 0.058250498
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

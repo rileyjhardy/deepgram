@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "request_id": "7f6e8f81-46dc-488f-adad-260451b06333",
+    "created": "2024-03-20T17:45:02.899Z",
+    "language": "en",
+    "topics_info": {
+      "model_uuid": "ba5b22e4-b39a-4550-a4bc-d8655f5092bc",
+      "input_tokens": 628,
+      "output_tokens": 81
+    }
+  },
+  "results": {
+    "topics": {
+      "segments": [
+        {
+          "text": "The Origins of the Pencil The pencil's origins can be traced back to ancient times when the Romans and Egyptians used a form of lead ore known as plumbago to mark and write. However, it wasn't until the late 16th century that the modern pencil began to take shape.",
+          "start_word": 49,
+          "end_word": 97,
+          "topics": [
+            {
+              "topic": "Inventing pencils",
+              "confidence_score": 0.0062142727
+            }
+          ]
+        },
+        {
+          "text": "Grading and Hardness Pencils come in various grades, ranging from the softest (9B) to the hardest (9H). The grade is determined by the ratio of graphite to clay in the pencil's core. Softer pencils, with a higher graphite content, produce darker and smoother lines, while harder pencils, with more clay, leave lighter and sharper marks.",
+          "start_word": 233,
+          "end_word": 287,
+          "topics": [
+            {
+              "topic": "Pencils",
+              "confidence_score": 0.2364423
+            },
+            {
+              "topic": "Grading and hardness",
+              "confidence_score": 0.84942895
+            }
+          ]
+        },
+        {
+          "text": "The Art of Pencil Making Despite the advent of modern technology, the process of making pencils remains a fascinating blend of tradition and innovation. From the careful selection of materials to the precise cutting, shaping, and assembly of each pencil, skilled artisans ensure that every pencil meets the highest standards of quality and performance.",
+          "start_word": 305,
+          "end_word": 358,
+          "topics": [
+            {
+              "topic": "Art of pencil making",
+              "confidence_score": 0.57705885
+            },
+            {
+              "topic": "Paste of pencils",
+              "confidence_score": 0.011114604
+            }
+          ]
+        },
+        {
+          "text": "The Future of Pencils While the pencil may seem like a relic of the past in our digital age, it continues to hold a special place in the hearts and minds of writers, artists, and creatives worldwide. Its simplicity and versatility make it a timeless tool that will undoubtedly endure for generations to come.",
+          "start_word": 359,
+          "end_word": 412,
+          "topics": [
+            {
+              "topic": "Future of pencils",
+              "confidence_score": 0.32139364
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
