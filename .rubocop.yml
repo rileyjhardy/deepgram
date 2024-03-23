@@ -1,3 +1,21 @@
+AllCops:
+    NewCops: disable
+
 Style/HashSyntax:
   Enabled: false
   
+Metrics/BlockLength:
+  Exclude:
+    # config files where we expect long blocks
+    - 'Gemfile'
+    - 'Guardfile'
+    - '*.gemspec'
+
+    # spec files that might have a big describe
+    - 'spec/**/*.rb'
+
+
+Metrics/AbcSize:
+  Exclude:
+    # spec files, especially matchers, can get complicated and that's OK
+    - 'lib/deepgram/response_handler.rb'

@@ -25,7 +25,9 @@ RSpec.describe Deepgram::Listen::Client do
 
       res = client.transcribe_file(path: 'spec/fixtures/harvard.wav')
 
-      expect(res.transcript).to eq('the stale smell of old beer lingers it takes heat to bring out the odor a cold dip restores health and zest a salt pickle tastes fine with ham a tacos all pasteur are my favorite a zest food is the hot cross bun')
+      expect(res.transcript).to eq('the stale smell of old beer lingers it takes heat to bring out ' \
+      'the odor a cold dip restores health and zest a salt pickle tastes fine with ham a tacos all ' \
+      'pasteur are my favorite a zest food is the hot cross bun')
       expect(res.words.count).to eq(44)
       expect(res).to be_a(Deepgram::Listen::Response)
     end
