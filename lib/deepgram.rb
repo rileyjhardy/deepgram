@@ -18,6 +18,9 @@ require_relative 'deepgram/base'
 require_relative 'deepgram/listen'
 require_relative 'deepgram/speak'
 require_relative 'deepgram/read'
+require_relative 'deepgram/client'
+require_relative 'deepgram/management'
+require_relative 'deepgram/on_prem'
 
 # The Deepgram module is the main namespace for the gem.
 # It provides access to the various classes and modules
