@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'exception'
+
 module Deepgram
   # The ResponseHandler module provides a method for handling responses
   # from the Deepgram API and raising appropriate exceptions based on
@@ -22,14 +24,14 @@ module Deepgram
     def handle_response(res) # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
       case res.status
       when 200..226 then res
-      when 400 then raise Deepgram::BadRequestError.new(res.body, code: res.status, headers: res.headers)
-      when 401 then raise Deepgram::UnauthorizedError.new(res.body, code: res.status, headers: res.headers)
-      when 403 then raise Deepgram::ForbiddenError.new(res.body, code: res.status, headers: res.headers)
-      when 404 then raise Deepgram::NotFoundError.new(res.body, code: res.status, headers: res.headers)
-      when 429 then raise Deepgram::RateLimitExceededError.new(res.body, code: res.status, headers: res.headers)
-      when 500 then raise Deepgram::InternalServerErrorError.new(res.body, code: res.status, headers: res.headers)
-      when 502 then raise Deepgram::BadGatewayError.new(res.body, code: res.status, headers: res.headers)
-      when 503 then raise Deepgram::ServiceUnavailableError.new(res.body, code: res.status, headers: res.headers)
+      when 400 then raise Deepgram::BadRequest.new(res.body, code: res.status, headers: res.headers)
+      when 401 then raise Deepgram::Unauthorized.new(res.body, code: res.status, headers: res.headers)
+      when 403 then raise Deepgram::Forbidden.new(res.body, code: res.status, headers: res.headers)
+      when 404 then raise Deepgram::NotFound.new(res.body, code: res.status, headers: res.headers)
+      when 429 then raise Deepgram::RateLimitExceeded.new(res.body, code: res.status, headers: res.headers)
+      when 500 then raise Deepgram::InternalServerError.new(res.body, code: res.status, headers: res.headers)
+      when 502 then raise Deepgram::BadGateway.new(res.body, code: res.status, headers: res.headers)
+      when 503 then raise Deepgram::ServiceUnavailable.new(res.body, code: res.status, headers: res.headers)
       end
     end
   end
