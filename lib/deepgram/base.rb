@@ -8,6 +8,8 @@ module Deepgram
   class Base
     include ResponseHandler
 
+    attr_reader :connection
+
     # Initializes a new instance of the Base class.
     #
     # @param options [Hash] A hash of options for configuring the API client.
@@ -20,6 +22,15 @@ module Deepgram
       @connection = Faraday.new(url: ENV.fetch('DEEPGRAM_URL', 'https://api.deepgram.com'))
       @connection.headers['Authorization'] = "Token #{ENV.fetch('DEEPGRAM_API_KEY', 'api-key')}"
       @options = options
+    end
+
+    def request(method, path = nil, **kwargs)
+      res = @connection.send(method, path, **kwargs) do |request|
+        yield(request) if block_given?
+        request.params.merge!(kwargs)
+      end
+
+      handle_response(res)
     end
   end
 end

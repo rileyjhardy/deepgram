@@ -23,19 +23,11 @@ module Deepgram
       #
       # @return [Response] An instance of the Response class containing the API response.
       def analyze(text:, **kwargs)
-        res = post(text, **kwargs)
-        Response.new(status: res.status, body: res.body, headers: res.headers)
-      end
-
-      private
-
-      def post(text, **kwargs)
-        res = @connection.post do |request|
+        res = request(:post, **kwargs) do |request|
           request.body = JSON.generate(text: text)
-          request.params.merge!(kwargs)
-          yield request.params if block_given?
         end
-        handle_response(res)
+
+        Response.new(status: res.status, body: res.body, headers: res.headers)
       end
     end
 

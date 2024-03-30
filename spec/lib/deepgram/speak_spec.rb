@@ -25,7 +25,7 @@ RSpec.describe Deepgram::Speak::Client do
 
       res = client.speak(text: text_input)
 
-      expect(res).to be_a(Deepgram::Speak::FileResponse)
+      expect(res).to be_a(Deepgram::Speak::Response)
       expect(a_request(:post, 'https://api.deepgram.com/v1/speak')).to have_been_made
     end
   end

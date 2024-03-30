@@ -21,15 +21,24 @@ module Deepgram
       # @return [Response] An instance of the Response class containing the API response.
       #
       # @raise [ArgumentError] If the provided file path is invalid.
+      # def transcribe_file(path:, audio_format: 'audio/wav', **kwargs)
+      #   validate_file_path(path)
+      #   res = @connection.post do |request|
+      #     request.headers['Content-Type'] = audio_format
+      #     request.params.merge!(kwargs)
+      #     request.body = File.binread(path)
+      #   end
+      #   res = handle_response(res)
+      #   Response.new(status: res.status, body: res.body, headers: res.headers)
+      # end
+
       def transcribe_file(path:, audio_format: 'audio/wav', **kwargs)
         validate_file_path(path)
-        res = @connection.post do |request|
+
+        request(:post, **kwargs) do |request|
           request.headers['Content-Type'] = audio_format
-          request.params.merge!(kwargs)
           request.body = File.binread(path)
         end
-        res = handle_response(res)
-        Response.new(status: res.status, body: res.body, headers: res.headers)
       end
 
       # Transcribes an audio file from a URL using the Deepgram Listen API.
@@ -42,12 +51,10 @@ module Deepgram
       # @raise [ArgumentError] If the provided URL is invalid.
       def transcribe_url(url:, **kwargs)
         validate_url(url)
-        res = @connection.post do |request|
-          request.params.merge!(kwargs)
+
+        request(:post, **kwargs) do |request|
           request.body = JSON.generate(url: url)
         end
-        res = handle_response(res)
-        Response.new(status: res.status, body: res.body, headers: res.headers)
       end
 
       private
@@ -58,6 +65,12 @@ module Deepgram
 
       def validate_url(url)
         raise ArgumentError, "Invalid URL: #{url}" unless url.match?(/\A#{URI::DEFAULT_PARSER.make_regexp}\z/)
+      end
+
+      def request(method, path = nil, **kwargs)
+        res = super(method, path, **kwargs)
+
+        Response.new(status: res.status, body: res.body, headers: res.headers)
       end
     end
 
