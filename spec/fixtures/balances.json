@@ -1,0 +1,10 @@
+{
+  "balances": [
+    {
+      "balance_id": "uuid",
+      "amount": 0,
+      "units": "string",
+      "purchase": "string"
+    }
+  ]
+}

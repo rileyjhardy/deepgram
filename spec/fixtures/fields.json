@@ -1,0 +1,22 @@
+{
+  "tags": [
+    "string"
+  ],
+  "models": [
+    {
+      "name": "string",
+      "language": "string",
+      "version": "string",
+      "model_id": "string"
+    }
+  ],
+  "processing_methods": [
+    "string"
+  ],
+  "languages": [
+    "string"
+  ],
+  "features": [
+    "string"
+  ]
+}

@@ -21,7 +21,9 @@ module Deepgram
       end
 
       def update_project(id, name:)
-        request(:patch, id, name: name)
+        request(:patch, id) do |request|
+          request.body = JSON.generate(name: name)
+        end
       end
 
       def delete_project(id)
@@ -35,11 +37,13 @@ module Deepgram
       end
 
       def get_key(key_id, project_id:, **kwargs)
-        request(:get, "#{project_id}/keys#{key_id}", **kwargs)
+        request(:get, "#{project_id}/keys/#{key_id}", **kwargs)
       end
 
       def create_key(project_id:, comment:, scopes:, **kwargs)
-        request(:post, "#{project_id}/keys", comment: comment, scopes: scopes, **kwargs)
+        request(:post, "#{project_id}/keys", **kwargs) do |request|
+          request.body = JSON.generate(comment: comment, scopes: scopes)
+        end
       end
 
       def delete_key(key_id, project_id:)
@@ -61,7 +65,9 @@ module Deepgram
       end
 
       def update_scope(scope, project_id:, member_id:)
-        request(:put, "#{project_id}/members/#{member_id}/scopes", scope: scope)
+        request(:put, "#{project_id}/members/#{member_id}/scopes") do |request|
+          request.body = JSON.generate(scope: scope)
+        end
       end
 
       # invitations
@@ -71,7 +77,9 @@ module Deepgram
       end
 
       def send_invite(email:, project_id:, scope:)
-        request(:post, "#{project_id}/invites", email: email, scope: scope)
+        request(:post, "#{project_id}/invites") do |request|
+          request.body = JSON.generate(email: email, scope: scope)
+        end
       end
 
       def delete_invite(email, project_id:)

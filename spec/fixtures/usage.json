@@ -1,0 +1,17 @@
+{
+  "start": "date",
+  "end": "date",
+  "resolution": {
+    "units": "string",
+    "amount": 0
+  },
+  "results": [
+    {
+      "start": "date",
+      "end": "date",
+      "hours": 0,
+      "total_hours": 0,
+      "requests": 0
+    }
+  ]
+}
