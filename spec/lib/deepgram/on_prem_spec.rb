@@ -15,6 +15,8 @@ RSpec.describe Deepgram::OnPrem::Client do
       res = client.credentials(project_id: '1234')
 
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(res.distribution_credentials.count).to eq(2)
+      expect(res.distribution_credentials.first['member']['member_id']).to eq('member-id-123')
       expect(a_request(:get,
                        'https://api.deepgram.com/v1/projects/1234/onprem/distribution/credentials')).to have_been_made
     end
@@ -32,9 +34,7 @@ RSpec.describe Deepgram::OnPrem::Client do
 
     it '#create_credentials' do
       stub_request(:post, 'https://api.deepgram.com/v1/projects/1234/onprem/distribution/credentials')
-        .with(
-          body: JSON.generate(comments: 'Dev credentials', scopes: %w[read write], provider: 'quay')
-        )
+        .with(body: JSON.generate(comments: 'Dev credentials', scopes: %w[read write], provider: 'quay'))
         .to_return(status: 200, body: Deepgram::Fixtures.load_file('credential.json'), headers: {})
 
       res = client.create_credential(
@@ -48,9 +48,9 @@ RSpec.describe Deepgram::OnPrem::Client do
 
     it '#delete_credential' do
       stub_request(:delete, 'https://api.deepgram.com/v1/projects/1234/onprem/distribution/credentials/5678')
-        .to_return(status: 200, body: JSON.generate(
+        .to_return(status: 200, body: {
           message: 'Successfully deleted the distribution credentials!'
-        ), headers: {})
+        }.to_json, headers: {})
 
       res = client.delete_credential('5678', project_id: '1234')
 

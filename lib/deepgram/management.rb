@@ -163,6 +163,14 @@ module Deepgram
       def requests
         raw['requests']
       end
+
+      def balances
+        raw['balances']
+      end
+
+      def distribution_credentials
+        raw['distribution_credentials']
+      end
     end
   end
 end

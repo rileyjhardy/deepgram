@@ -1,5 +1,5 @@
 {
-  "balance_id": "uuid",
+  "balance_id": "balance-id-123",
   "amount": 0,
   "units": "string",
   "purchase": "string"

@@ -23,21 +23,26 @@ RSpec.describe Deepgram::Management::Client do
 
       expect(res).to be_a(Deepgram::Management::Response)
       expect(res.projects.count).to eq(1)
+      expect(res.projects.first['project_id']).to eq('1234')
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects')).to have_been_made
     end
 
     it '#get_project' do
       stub_request(:get, 'https://api.deepgram.com/v1/projects/1234')
-        .to_return(status: 200, body: JSON.generate({ project_id: '1234', name: 'Company Name' }))
+        .to_return(status: 200, body: {
+          "project_id": '1234',
+          "name": 'Company Name'
+        }.to_json, headers: {})
 
       res = client.get_project('1234')
 
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234')).to have_been_made
     end
 
     it '#update_project' do
       stub_request(:patch, 'https://api.deepgram.com/v1/projects/1234')
-        .with(body: JSON.generate({ name: 'New Name' }))
+        .with(body: { name: 'New Name' }.to_json)
 
       res = client.update_project('1234', name: 'New Name')
 
@@ -72,7 +77,7 @@ RSpec.describe Deepgram::Management::Client do
                 "last_name": 'Stephenson'
               },
               "api_key": {
-                "api_key_id": '15f6022a-d188-4317-a3dd-4340fdeddb75',
+                "api_key_id": 'api-key-123',
                 "comment": 'Management API key',
                 "scopes": [
                   'owner'
@@ -87,6 +92,7 @@ RSpec.describe Deepgram::Management::Client do
 
       expect(res).to be_a(Deepgram::Management::Response)
       expect(res.keys.count).to eq(1)
+      expect(res.keys.first['api_key']['api_key_id']).to eq('api-key-123')
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/keys')).to have_been_made
     end
 
@@ -100,7 +106,7 @@ RSpec.describe Deepgram::Management::Client do
             "last_name": 'Team'
           },
           api_key: {
-            "api_key_id": '17c8886a-b58f-4c15-a7eb-9e52f2cf26ce',
+            "api_key_id": 'api-key-123',
             "comment": 'Member API key',
             "scopes": [
               'member'
@@ -114,19 +120,30 @@ RSpec.describe Deepgram::Management::Client do
 
       res = client.get_key('5678', project_id: '1234')
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(res.raw['api_key']['api_key_id']).to eq('api-key-123')
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/keys/5678')).to have_been_made
     end
 
     it '#create_key' do
       stub_request(:post, 'https://api.deepgram.com/v1/projects/1234/keys')
-        .with(
-          body: JSON.generate({ comment: 'my new api key',
-                                scopes: ['member', 'onprem:products'] })
-        )
+        .with(body: JSON.generate(comment: 'my new api key', scopes: ['member', 'onprem:products']))
+        .to_return(status: 200, body: {
+          "api_key_id": 'b6c318f0-bc94-40b3-83a9-7f6898cd5500',
+          "key": '1bc4a5e63f8425c9fd102539739923204243b9ce',
+          "comment": 'Test On-prem API Key with curl',
+          "scopes": [
+            'member',
+            'onprem:product:api',
+            'onprem:product:engine',
+            'onprem:product:license-proxy'
+          ],
+          "created": '2023-06-27T16:59:46.572660Z'
+        }.to_json)
 
       res = client.create_key(project_id: '1234', comment: 'my new api key', scopes: ['member', 'onprem:products'])
 
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(a_request(:post, 'https://api.deepgram.com/v1/projects/1234/keys')).to have_been_made
     end
 
     it '#delete_key' do
@@ -146,7 +163,7 @@ RSpec.describe Deepgram::Management::Client do
         .to_return(status: 200, body: JSON.generate(
           members: [
             {
-              "member_id": 'uuid',
+              "member_id": 'member-id-123',
               "first_name": 'string',
               "last_name": 'string',
               "scopes": [
@@ -159,6 +176,8 @@ RSpec.describe Deepgram::Management::Client do
 
       res = client.members(project_id: '1234')
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(res.members.count).to eq(1)
+      expect(res.members.first['member_id']).to eq('member-id-123')
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/members')).to have_been_made
     end
 
@@ -210,6 +229,8 @@ RSpec.describe Deepgram::Management::Client do
 
       res = client.invites(project_id: '1234')
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(res.invites.count).to eq(1)
+      expect(res.invites.first['email']).to eq('test@example.com')
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/invites')).to have_been_made
     end
 
@@ -250,6 +271,7 @@ RSpec.describe Deepgram::Management::Client do
 
       expect(res).to be_a(Deepgram::Management::Response)
       expect(res.requests.count).to eq(1)
+      expect(res.requests.first['request_id']).to eq 'request-id-123'
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/requests')).to have_been_made
     end
 
@@ -260,6 +282,7 @@ RSpec.describe Deepgram::Management::Client do
       res = client.get_request('5678', project_id: '1234')
 
       expect(res).to be_a(Deepgram::Management::Response)
+
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/requests/5678')).to have_been_made
     end
 
@@ -294,6 +317,8 @@ RSpec.describe Deepgram::Management::Client do
       res = client.balances(project_id: '1234')
 
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(res.balances.count).to eq(1)
+      expect(res.balances.first['balance_id']).to eq('balance-id-123')
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/balances')).to have_been_made
     end
 
@@ -304,6 +329,7 @@ RSpec.describe Deepgram::Management::Client do
       res = client.balance('5678', project_id: '1234')
 
       expect(res).to be_a(Deepgram::Management::Response)
+      expect(res.raw['balance_id']).to eq('balance-id-123')
       expect(a_request(:get, 'https://api.deepgram.com/v1/projects/1234/balances/5678')).to have_been_made
     end
   end

@@ -9,10 +9,12 @@ RSpec.describe Deepgram::Read::Client do
     let(:client) { described_class.new }
     let(:text_input) { Deepgram::Fixtures.load_file('pencils.txt') }
 
-    describe '#summarize' do
-      let(:fixture) { Deepgram::Fixtures.load_file('summary.json') }
-
-      it 'sends a POST request with the text as the body' do
+    describe '#analyze' do
+      let(:summary) { Deepgram::Fixtures.load_file('summary.json') }
+      let(:topics) { Deepgram::Fixtures.load_file('topics.json') }
+      let(:sentiment) { Deepgram::Fixtures.load_file('sentiment.json') }
+      let(:intents) { Deepgram::Fixtures.load_file('intents.json') }
+      it 'with summary' do
         stub_request(:post, 'https://api.deepgram.com/v1/read?language=en&summarize=true')
           .with(
             body: JSON.generate({ text: text_input }),
@@ -23,7 +25,7 @@ RSpec.describe Deepgram::Read::Client do
               'User-Agent' => 'Faraday v2.9.0'
             }
           )
-          .to_return(status: 200, body: fixture, headers: {})
+          .to_return(status: 200, body: summary, headers: {})
 
         res = client.analyze(text: text_input, summarize: true)
 
@@ -46,12 +48,8 @@ RSpec.describe Deepgram::Read::Client do
         'rich history and artistry.')
         expect(a_request(:post, 'https://api.deepgram.com/v1/read?language=en&summarize=true')).to have_been_made
       end
-    end
 
-    describe '#topics' do
-      let(:fixture) { Deepgram::Fixtures.load_file('topics.json') }
-
-      it 'sends a POST request with the text as the body' do
+      it 'with topics' do
         stub_request(:post, 'https://api.deepgram.com/v1/read?language=en&topics=true')
           .with(
             body: JSON.generate({ text: text_input }),
@@ -62,9 +60,8 @@ RSpec.describe Deepgram::Read::Client do
               'User-Agent' => 'Faraday v2.9.0'
             }
           )
-          .to_return(status: 200, body: fixture, headers: {})
+          .to_return(status: 200, body: topics, headers: {})
 
-        client = described_class.new
         res = client.analyze(text: text_input, topics: true)
 
         expect(res).to be_a(Deepgram::Read::Response)
@@ -87,12 +84,8 @@ RSpec.describe Deepgram::Read::Client do
         )
         expect(a_request(:post, 'https://api.deepgram.com/v1/read?language=en&topics=true')).to have_been_made
       end
-    end
 
-    describe '#sentiment' do
-      let(:fixture) { Deepgram::Fixtures.load_file('sentiment.json') }
-
-      it 'sends a POST request with the text as the body' do
+      it 'with sentiments' do
         stub_request(:post, 'https://api.deepgram.com/v1/read?language=en&sentiment=true')
           .with(
             body: JSON.generate({ text: text_input }),
@@ -103,7 +96,7 @@ RSpec.describe Deepgram::Read::Client do
               'User-Agent' => 'Faraday v2.9.0'
             }
           )
-          .to_return(status: 200, body: fixture, headers: {})
+          .to_return(status: 200, body: sentiment, headers: {})
 
         client = described_class.new
         res = client.analyze(text: text_input, sentiment: true)
@@ -124,12 +117,8 @@ RSpec.describe Deepgram::Read::Client do
 
         expect(a_request(:post, 'https://api.deepgram.com/v1/read?language=en&sentiment=true')).to have_been_made
       end
-    end
 
-    describe '#intents' do
-      let(:fixture) { Deepgram::Fixtures.load_file('intents.json') }
-
-      it 'sends a POST request with the text as the body' do
+      it 'with intents' do
         stub_request(:post, 'https://api.deepgram.com/v1/read?language=en&intents=true')
           .with(
             body: JSON.generate({ text: text_input }),
@@ -140,7 +129,7 @@ RSpec.describe Deepgram::Read::Client do
               'User-Agent' => 'Faraday v2.9.0'
             }
           )
-          .to_return(status: 200, body: fixture, headers: {})
+          .to_return(status: 200, body: intents, headers: {})
 
         client = described_class.new
         res = client.analyze(text: text_input, intents: true)

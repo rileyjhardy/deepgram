@@ -5,15 +5,20 @@ require 'rspec'
 require 'deepgram/fixtures'
 
 RSpec.describe Deepgram::Listen::Client do
-  describe '#transcribe_file' do
+  describe 'listen client' do
     let(:client) { described_class.new }
-    let(:fixture) { Deepgram::Fixtures.load_json('harvard.json') }
+    let(:harvard) { Deepgram::Fixtures.load_file('harvard.json') }
+    let(:file) { Deepgram::Fixtures.load_file('harvard.wav') }
 
     it 'raises an error if the file does not exist' do
       expect { client.transcribe_file(path: 'nonexistent.wav') }.to raise_error(ArgumentError, /Invalid file path/)
     end
 
-    it 'sends a POST request with the file as the body' do
+    it 'raises an error if the URL is invalid' do
+      expect { client.transcribe_url(url: 'invalid') }.to raise_error(ArgumentError, /Invalid URL/)
+    end
+
+    it '#transcribe_file' do
       stub_request(:post, 'https://api.deepgram.com/v1/listen')
         .with(
           body: File.binread('spec/fixtures/harvard.wav'),
@@ -21,7 +26,7 @@ RSpec.describe Deepgram::Listen::Client do
             'Content-Type' => 'audio/wav'
           }
         )
-        .to_return(status: 200, body: fixture.to_json, headers: {})
+        .to_return(status: 200, body: harvard, headers: {})
 
       res = client.transcribe_file(path: 'spec/fixtures/harvard.wav')
 
@@ -31,17 +36,8 @@ RSpec.describe Deepgram::Listen::Client do
       expect(res.words.count).to eq(44)
       expect(res).to be_a(Deepgram::Listen::Response)
     end
-  end
 
-  describe '#transcribe_url' do
-    let(:client) { described_class.new }
-    let(:file) { Deepgram::Fixtures.load_file('harvard.wav') }
-
-    it 'raises an error if the URL is invalid' do
-      expect { client.transcribe_url(url: 'invalid') }.to raise_error(ArgumentError, /Invalid URL/)
-    end
-
-    it 'sends a POST request with the URL as the body' do
+    it '#transcribe_url' do
       stub_request(:post, 'https://api.deepgram.com/v1/listen')
         .with(body: JSON.generate(url: 'https://example.com/harvard.wav'))
         .to_return(status: 200, body: file, headers: {})
